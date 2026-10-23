@@ -3,7 +3,7 @@
 Diploma project: **Development of a Proctoring System for Online Programming Contests**
 (Russian: «Разработка системы прокторинга для онлайн-соревнований по программированию»)
 
-> Status: **analysis and design stage** (first submission, tag `prob-period-1`). No runnable application yet; setup instructions will be added when code is available.
+> Status: **analysis and design stage**. No runnable application yet; the documentation release `prob-period-1` is being prepared.
 
 ## Description
 
@@ -64,16 +64,18 @@ Choices are justified in [`docs/05-technology-comparison.md`](docs/05-technology
 | 3 | [Literature review](docs/03-literature-review.md) |
 | 4 | [Existing system comparison](docs/04-systems-comparison.md) |
 | 5 | [Technology comparison](docs/05-technology-comparison.md) |
-| 6 | [Requirements specification](docs/06-requirements-specification.md) |
+| 6 | [Requirements specification](docs/06-requirements.md) |
 | 7 | [Architecture and diagrams](docs/07-architecture-and-diagrams.md) |
 | 8 | [UX / prototype](docs/08-ux-prototype.md) |
-| 9 | [Verification and evaluation plan](docs/09-verification-evaluation-plan.md) |
+| 9 | [Verification and evaluation plan](docs/09-verification-plan.md) |
 | 10 | [Project management and risks](docs/10-project-management-and-risks.md) |
 | 11 | [Supervisor feedback](docs/11-supervisor-feedback.md) |
 
 Diagrams (editable sources and PNG exports): [`diagrams/`](diagrams/).
-UI mockups: [`docs/prototype/`](docs/prototype/) · Figma prototype: `<FIGMA_URL>`.
-Task tracker (YouTrack, project `DIP`): `<YOUTRACK_PROJECT_URL>`.
+UI mockups and editable HTML sources: [`prototype/`](prototype/).
+Figma prototype: [open in Figma](https://www.figma.com/design/hIkutC91r7j0Vr8Anh0HPg/Untitled?node-id=0-1).
+Task tracker: [YouTrack project DIP](https://proctoring-diploma.youtrack.cloud/projects/DIP).
+Submission links pinned to the `prob-period-1` tag: [Appendix A](docs/appendix-a-links.md).
 
 ## Repository structure
 
@@ -82,8 +84,10 @@ Task tracker (YouTrack, project `DIP`): `<YOUTRACK_PROJECT_URL>`.
 ├── README.md
 ├── .gitignore
 ├── docs/          proposal, relevance evidence, literature review, comparisons,
-│                  requirements, architecture, prototype, verification plan, management, feedback
+│                  requirements, architecture, UX prototype notes, verification plan,
+│                  management, feedback, and Appendix A
 ├── diagrams/      editable diagram sources (.dot, .mmd) and PNG exports
+├── prototype/     UI mockup PNG exports and editable HTML/CSS sources
 ├── src/           application code by component (backend/, frontend/)
 ├── tests/         automated tests and supporting materials
 └── config/        dependency definitions and configuration examples (placeholder values only)

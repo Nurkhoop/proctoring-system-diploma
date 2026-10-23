@@ -1,0 +1,95 @@
+digraph Components {
+  graph [
+    rankdir=TB,
+    bgcolor="white",
+    pad="0.25",
+    nodesep="0.35",
+    ranksep="0.6",
+    splines=polyline,
+    fontname="Arial",
+    fontsize=16,
+    labelloc="t",
+    label="Proctoring System — component view"
+  ];
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=9, color="#4f46e5", fillcolor="#eef2ff", margin="0.12,0.08"];
+  edge [fontname="Arial", fontsize=8, color="#475569", arrowsize=0.65];
+
+  subgraph cluster_frontend {
+    label="Web client (React + TypeScript)";
+    color="#6366f1";
+    style="rounded";
+    fontname="Arial";
+    student_ui [label="Student UI"];
+    teacher_ui [label="Teacher dashboard"];
+    editor [label="Code editor\n(Monaco)"];
+    proctoring [label="Proctoring module\n(visibility, fullscreen, clipboard)"];
+    timer [label="Timer widget"];
+    api_client [label="API client\n(REST + WebSocket)"];
+    student_ui -> editor;
+    student_ui -> proctoring;
+    student_ui -> timer;
+    teacher_ui -> api_client;
+    editor -> api_client;
+    proctoring -> api_client;
+    timer -> api_client;
+  }
+
+  subgraph cluster_backend {
+    label="Backend (FastAPI)";
+    color="#f97316";
+    style="rounded";
+    fontname="Arial";
+    api [label="REST API layer\n(OpenAPI, validation)"];
+    auth [label="Auth and roles\n(JWT)"];
+    contest [label="Contest service"];
+    submission [label="Submission service"];
+    intake [label="Proctoring event intake"];
+    reports [label="Report service"];
+    timer_service [label="Timer service"];
+    adapter [label="DOMjudge adapter\n(retries, error handling)"];
+    risk [label="Risk scoring"];
+    monitoring [label="Monitoring hub\n(WebSocket)"];
+    data [label="Data access\n(SQLAlchemy)"];
+
+    api -> auth;
+    api -> contest;
+    api -> submission;
+    api -> intake;
+    api -> reports;
+    api -> timer_service;
+    contest -> adapter;
+    submission -> adapter;
+    intake -> risk;
+    risk -> monitoring;
+    contest -> data;
+    submission -> data;
+    intake -> data;
+    reports -> data;
+    timer_service -> data;
+  }
+
+  subgraph cluster_stores {
+    label="Data stores";
+    color="#10b981";
+    style="rounded";
+    fontname="Arial";
+    redis [label="Redis\n(timer cache, pub/sub)", shape=cylinder, fillcolor="#d1fae5", color="#10b981"];
+    postgres [label="PostgreSQL", shape=cylinder, fillcolor="#d1fae5", color="#10b981"];
+  }
+
+  subgraph cluster_domjudge {
+    label="DOMjudge (external)";
+    color="#94a3b8";
+    style="rounded";
+    fontname="Arial";
+    domserver [label="DOMserver", fillcolor="#e5e7eb", color="#94a3b8"];
+    judgehosts [label="Judgehost(s)", fillcolor="#e5e7eb", color="#94a3b8"];
+    domserver -> judgehosts;
+  }
+
+  api_client -> api [label="HTTPS / WSS"];
+  adapter -> domserver [label="REST API"];
+  data -> postgres;
+  timer_service -> redis;
+  monitoring -> redis;
+}

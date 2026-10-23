@@ -1,0 +1,28 @@
+digraph SystemContext {
+  graph [
+    rankdir=LR,
+    bgcolor="white",
+    pad="0.2",
+    nodesep="0.55",
+    ranksep="1.0",
+    splines=polyline,
+    fontname="Arial",
+    fontsize=16,
+    labelloc="t",
+    label="System context"
+  ];
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=12, margin="0.18,0.12", color="#4f46e5", fillcolor="#eef2ff"];
+  edge [fontname="Arial", fontsize=10, color="#334155", fontcolor="#0f172a", arrowsize=0.8];
+
+  student [label="Student\n(participant)"];
+  system [label="Proctoring System\n(web client + backend)", color="#f97316", fillcolor="#fef3c7", penwidth=1.5, width=2.5, height=0.9];
+  teacher [label="Teacher\n(organizer)"];
+  domjudge [label="DOMjudge\n(DOMserver + judgehosts)\nexternal system", shape=box, style="filled", color="#64748b", fillcolor="#e5e7eb"];
+
+  student -> system [label="solutions, integrity events"];
+  system -> student [label="problems, timer, warnings, verdicts"];
+  teacher -> system [label="contest set-up, incident review"];
+  system -> teacher [label="live violations, risk scores, reports"];
+  system -> domjudge [label="REST API: contests, problems, submissions"];
+  domjudge -> system [label="verdicts, scoreboard"];
+}

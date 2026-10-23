@@ -1,0 +1,40 @@
+sequenceDiagram
+    actor Student
+    participant Client as Web client
+    participant Backend
+    participant Redis
+    participant DB as PostgreSQL
+    participant Judge as DOMjudge
+    actor Teacher as Teacher dashboard
+
+    rect rgb(255, 248, 190)
+        Note over Student,Teacher: Scenario A: submit a solution
+        Student->>Client: Press "Submit"
+        Client->>Backend: POST /contests/{id}/submissions
+        Backend->>Backend: Check role, contest running, time left
+        Backend->>DB: Store submission (verdict = pending)
+        Backend->>Judge: POST submission (REST API)
+        Judge-->>Backend: Submission id
+        Backend-->>Client: 202 Accepted
+        loop Until final verdict
+            Client->>Backend: GET /submissions/{id}
+            Backend->>Judge: Get judgement
+            Judge-->>Backend: Verdict
+            Backend->>DB: Update verdict
+            Backend-->>Client: Verdict
+        end
+    end
+
+    rect rgb(255, 248, 190)
+        Note over Student,Teacher: Scenario B: integrity event
+        Student->>Client: Switches to another tab
+        Client->>Client: visibilitychange detected
+        Client-->>Student: Show warning
+        Client->>Backend: POST /contests/{id}/events (batch)
+        Backend->>Backend: Validate event and participant
+        Backend->>DB: Store event with server time
+        Backend->>Backend: Recalculate risk score
+        Backend->>Redis: Publish event and score
+        Redis-->>Backend: Message for monitoring hub
+        Backend-->>Teacher: WebSocket push (violation, new score)
+    end

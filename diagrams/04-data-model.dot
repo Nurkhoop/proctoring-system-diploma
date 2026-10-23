@@ -1,0 +1,134 @@
+digraph DataModel {
+  graph [
+    rankdir=LR,
+    bgcolor="white",
+    pad="0.25",
+    nodesep="0.45",
+    ranksep="0.8",
+    splines=polyline,
+    fontname="Arial",
+    fontsize=16,
+    labelloc="t",
+    label="Core data model"
+  ];
+  node [shape=plain, fontname="Arial", fontsize=9];
+  edge [fontname="Arial", fontsize=8, color="#64748b", arrowsize=0.65];
+
+  users [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>USERS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>email</TD><TD>string, unique</TD></TR>
+      <TR><TD>full_name</TD><TD>string</TD></TR>
+      <TR><TD>password_hash</TD><TD>string</TD></TR>
+      <TR><TD>role</TD><TD>student | teacher</TD></TR>
+      <TR><TD>domjudge_user_id</TD><TD>int, nullable</TD></TR>
+    </TABLE>
+  >];
+
+  contests [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>CONTESTS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>teacher_id</TD><TD>FK users.id</TD></TR>
+      <TR><TD>title</TD><TD>string</TD></TR>
+      <TR><TD>starts_at</TD><TD>timestamp</TD></TR>
+      <TR><TD>duration_seconds</TD><TD>int</TD></TR>
+      <TR><TD>extra_seconds</TD><TD>int</TD></TR>
+      <TR><TD>status</TD><TD>draft | scheduled | running | finished</TD></TR>
+      <TR><TD>domjudge_contest_id</TD><TD>string, nullable</TD></TR>
+    </TABLE>
+  >];
+
+  problems [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>PROBLEMS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>contest_id</TD><TD>FK contests.id</TD></TR>
+      <TR><TD>label</TD><TD>string</TD></TR>
+      <TR><TD>title</TD><TD>string</TD></TR>
+      <TR><TD>domjudge_problem_id</TD><TD>string</TD></TR>
+    </TABLE>
+  >];
+
+  participants [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>CONTEST_PARTICIPANTS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>contest_id</TD><TD>FK contests.id</TD></TR>
+      <TR><TD>user_id</TD><TD>FK users.id</TD></TR>
+      <TR><TD>risk_score</TD><TD>int</TD></TR>
+      <TR><TD>joined_at</TD><TD>timestamp</TD></TR>
+    </TABLE>
+  >];
+
+  submissions [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>SUBMISSIONS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>participant_id</TD><TD>FK contest_participants.id</TD></TR>
+      <TR><TD>problem_id</TD><TD>FK problems.id</TD></TR>
+      <TR><TD>language</TD><TD>string</TD></TR>
+      <TR><TD>source_code</TD><TD>text</TD></TR>
+      <TR><TD>verdict</TD><TD>string</TD></TR>
+      <TR><TD>domjudge_submission_id</TD><TD>string, nullable</TD></TR>
+      <TR><TD>submitted_at</TD><TD>timestamp</TD></TR>
+    </TABLE>
+  >];
+
+  drafts [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>DRAFTS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>participant_id</TD><TD>FK contest_participants.id</TD></TR>
+      <TR><TD>problem_id</TD><TD>FK problems.id</TD></TR>
+      <TR><TD>language</TD><TD>string</TD></TR>
+      <TR><TD>source_code</TD><TD>text</TD></TR>
+      <TR><TD>saved_at</TD><TD>timestamp</TD></TR>
+    </TABLE>
+  >];
+
+  incidents [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>INCIDENTS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>participant_id</TD><TD>FK contest_participants.id</TD></TR>
+      <TR><TD>severity</TD><TD>string</TD></TR>
+      <TR><TD>status</TD><TD>open | reviewed | dismissed</TD></TR>
+      <TR><TD>teacher_note</TD><TD>text, nullable</TD></TR>
+      <TR><TD>created_at</TD><TD>timestamp</TD></TR>
+    </TABLE>
+  >];
+
+  events [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>PROCTORING_EVENTS</B></TD></TR>
+      <TR><TD>id</TD><TD>PK uuid</TD></TR>
+      <TR><TD>participant_id</TD><TD>FK contest_participants.id</TD></TR>
+      <TR><TD>type</TD><TD>string</TD></TR>
+      <TR><TD>client_time</TD><TD>timestamp</TD></TR>
+      <TR><TD>server_time</TD><TD>timestamp</TD></TR>
+      <TR><TD>details</TD><TD>jsonb</TD></TR>
+    </TABLE>
+  >];
+
+  users -> contests [label="organizes\n1 : 0..*"];
+  contests -> problems [label="contains\n1 : 0..*"];
+  contests -> participants [label="has\n1 : 0..*"];
+  users -> participants [label="takes part\n1 : 0..*"];
+  participants -> submissions [label="makes\n1 : 0..*"];
+  problems -> submissions [label="receives\n1 : 0..*"];
+  participants -> drafts [label="saves\n1 : 0..*"];
+  problems -> drafts [label="for\n1 : 0..*"];
+  participants -> incidents [label="is subject of\n1 : 0..*"];
+  participants -> events [label="generates\n1 : 0..*"];
+  incident_events [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#8b5cf6">
+      <TR><TD BGCOLOR="#ede9fe" COLSPAN="2"><B>INCIDENT_EVENTS</B></TD></TR>
+      <TR><TD>incident_id</TD><TD>PK, FK incidents.id</TD></TR>
+      <TR><TD>event_id</TD><TD>PK, FK proctoring_events.id</TD></TR>
+    </TABLE>
+  >];
+  incidents -> incident_events [label="includes\n1 : 1..*"];
+  events -> incident_events [label="referenced by\n1 : 0..*"];
+}

@@ -1,0 +1,71 @@
+digraph UseCase {
+  graph [
+    rankdir=LR,
+    bgcolor="white",
+    pad="0.25",
+    nodesep="0.32",
+    ranksep="0.75",
+    splines=true,
+    fontname="Arial",
+    fontsize=16,
+    labelloc="t",
+    label="Proctoring System — use cases"
+  ];
+  node [fontname="Arial", fontsize=10, color="#4f46e5", fillcolor="#eef2ff", style=filled, margin="0.12,0.08"];
+  edge [fontname="Arial", fontsize=9, color="#64748b", arrowsize=0.7];
+
+  student [label="Student", shape=box, fillcolor="#dcfce7", color="#86efac"];
+  teacher [label="Teacher", shape=box, fillcolor="#dcfce7", color="#86efac"];
+  domjudge [label="DOMjudge\n(external system)", shape=box, fillcolor="#e5e7eb", color="#94a3b8"];
+
+  subgraph cluster_system {
+    label="Proctoring System";
+    color="#f97316";
+    style="rounded";
+    penwidth=1.2;
+    fontname="Arial";
+
+    node [shape=ellipse];
+    write_code [label="Write code\nin editor"];
+    submit [label="Submit solution"];
+    verdicts [label="View verdicts\nand history"];
+    timer [label="See synchronized\ntimer"];
+    warning [label="Receive integrity\nwarning"];
+    contests [label="View contests\nand join"];
+    problem [label="Read problem\nstatement"];
+    scoreboard [label="View scoreboard"];
+    login [label="Log in"];
+    monitor [label="Monitor violations\nlive"];
+    incidents [label="Review incidents"];
+    report [label="Export report"];
+    create [label="Create and configure\ncontest"];
+    participants [label="Manage participants"];
+    lifecycle [label="Start, extend,\nfinish contest"];
+    judge_submission [label="Judge submission", fillcolor="#fef3c7", color="#fbbf24"];
+    sync [label="Synchronize with\nDOMjudge", fillcolor="#fef3c7", color="#fbbf24"];
+  }
+
+  student -> write_code;
+  student -> submit;
+  student -> verdicts;
+  student -> timer;
+  student -> warning;
+  student -> contests;
+  student -> problem;
+  student -> scoreboard;
+  student -> login;
+
+  teacher -> login;
+  teacher -> monitor;
+  teacher -> incidents;
+  teacher -> report;
+  teacher -> create;
+  teacher -> participants;
+  teacher -> lifecycle;
+  teacher -> scoreboard;
+
+  submit -> judge_submission [style=dashed, label="<<include>>"];
+  create -> sync [style=dashed, label="<<include>>"];
+  judge_submission -> domjudge;
+  sync -> domjudge;
+}

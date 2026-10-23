@@ -33,8 +33,8 @@ Online programming contests and exams are common in universities and schools, bu
 
 | Name | Group | Role and responsibilities | GitHub |
 |---|---|---|---|
-| Nurkhan Kuanyshov | SE-2431 | Backend: REST API and data model, roles and authentication, DOMjudge integration, server timer, proctoring event intake, risk score, real-time monitoring, reports, tests and deployment | `<GITHUB_USERNAME_NURKHAN>` |
-| Bakytzhan Dzhangazy | SE-2431 | Frontend and UX/UI: interfaces for both roles, code editor, client-side proctoring, timer, teacher dashboard, localization, tests | `<GITHUB_USERNAME_BAKYTZHAN>` |
+| Nurkhan Kuanyshov | SE-2431 | Backend: REST API and data model, roles and authentication, DOMjudge integration, server timer, proctoring event intake, risk score, real-time monitoring, reports, tests and deployment | `Nurkhoop` |
+| Bakytzhan Dzhangazy | SE-2431 | Frontend and UX/UI: interfaces for both roles, code editor, client-side proctoring, timer, teacher dashboard, localization, tests | `dzhangazy` |
 
 **Supervisor:** Abzal Yermekbayuly Kyzyrkanov, assistant professor.
 
